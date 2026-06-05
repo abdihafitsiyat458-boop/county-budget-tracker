@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Projects — Mfalme County</title>
+<link rel="stylesheet" href="style.css"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
+</head><body>
+<nav class="nav"><div class="wrap">
+  <a class="brand" href="home.html"><span class="logo">M</span> Mfalme County · Transparency</a>
+  <div class="menu">
+    <a href="home.html">Home</a>
+    <a href="projects.html">Projects</a>
+    <a href="reports.html">Reports</a>
+    <a href="statistics.html">Statistics</a>
+    <a href="citizen.html">Citizen Say</a>
+    <a href="login.html" class="btn" style="margin-left:8px">Login</a>
+  </div>
+</div></nav>
+
+<main class="container">
+  <span class="tag">Development Tracker</span>
+  <h1 style="margin:10px 0 6px">County Projects</h1>
+  <p class="muted">Filter and explore every funded project across the county.</p>
+
+  <div class="filters" style="margin-top:20px">
+    <input id="q" placeholder="Search project, ward, contractor..."/>
+    <select id="sector"><option value="">All sectors</option></select>
+    <select id="status">
+      <option value="">All statuses</option>
+      <option value="ongoing">Ongoing</option>
+      <option value="completed">Completed</option>
+      <option value="delayed">Delayed</option>
+    </select>
+  </div>
+
+  <div class="grid cards" id="list"></div>
+</main>
+
+<footer class="footer">© Mfalme County Government</footer>
+<script src="data.js"></script>
+<script>
+  const sectors = [...new Set(PROJECTS.map(p=>p.sector))];
+  const sel = document.getElementById("sector");
+  sectors.forEach(s=>sel.insertAdjacentHTML("beforeend",`<option>${s}</option>`));
+
+  function render(){
+    const q = document.getElementById("q").value.toLowerCase();
+    const sec = document.getElementById("sector").value;
+    const st = document.getElementById("status").value;
+    const list = document.getElementById("list"); list.innerHTML="";
+    const items = PROJECTS.filter(p=>
+      (!q || (p.name+p.ward+p.contractor).toLowerCase().includes(q)) &&
+      (!sec || p.sector===sec) && (!st || p.status===st));
+    if(!items.length){ list.innerHTML='<p class="muted">No projects match your filters.</p>'; return; }
+    items.forEach(p=>{
+      list.insertAdjacentHTML("beforeend",`
+        <div class="card project">
+          <div style="display:flex;justify-content:space-between;align-items:start;gap:8px">
+            <h3>${p.name}</h3><span class="badge ${p.status}">${p.status}</span>
+          </div>
+          <div class="meta"><span>${p.ward} · ${p.sector}</span><span>${p.progress}%</span></div>
+          <div class="bar"><span style="width:${p.progress}%"></span></div>
+          <div class="meta"><span>${shortKES(p.spent)} of ${shortKES(p.budget)}</span><span>${p.contractor}</span></div>
+          <div class="meta"><span>Start: ${p.start}</span><span>End: ${p.end}</span></div>
+        </div>`);
+    });
+  }
+  ["q","sector","status"].forEach(id=>document.getElementById(id).addEventListener("input",render));
+  render();
+</script>
+</body></html>

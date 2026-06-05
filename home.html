@@ -1,0 +1,80 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Mfalme County — Transparency & Budget Tracker</title>
+<meta name="description" content="Track county budgets, projects, reports and engage your leaders."/>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+<nav class="nav"><div class="wrap">
+  <a class="brand" href="home.html"><span class="logo">M</span> Mfalme County · Transparency</a>
+  <div class="menu">
+    <a href="home.html">Home</a>
+    <a href="projects.html">Projects</a>
+    <a href="reports.html">Reports</a>
+    <a href="statistics.html">Statistics</a>
+    <a href="citizen.html">Citizen Say</a>
+    <a href="login.html" class="btn" style="margin-left:8px">Login</a>
+  </div>
+</div></nav>
+
+<header class="hero"><div class="wrap">
+  <div>
+    <span class="tag">Open Government · FY 2024/2025</span>
+    <h1 style="margin-top:14px">Every shilling. Every project. <span style="color:var(--primary)">In the open.</span></h1>
+    <p>Mfalme County's transparency portal lets residents track development projects, view real budgets, download official reports and have their say — in real time.</p>
+    <div class="ctas">
+      <a href="projects.html" class="btn">Track Projects</a>
+      <a href="statistics.html" class="btn ghost">View Budget</a>
+    </div>
+  </div>
+  <div class="hero-stats">
+    <div class="stat"><div class="num" id="hs-rev">—</div><div class="lbl">Total Revenue (FY)</div></div>
+    <div class="stat"><div class="num" id="hs-exp">—</div><div class="lbl">Total Expenditure</div></div>
+    <div class="stat"><div class="num" id="hs-proj">—</div><div class="lbl">Active Projects</div></div>
+    <div class="stat"><div class="num" id="hs-comp">—</div><div class="lbl">Completed</div></div>
+  </div>
+</div></header>
+
+<main class="container">
+  <div class="section-title"><h2>What you can do here</h2></div>
+  <div class="grid cards">
+    <div class="card"><h3>📍 Track Projects</h3><p class="muted">Browse all county projects, their budgets, contractors and live progress.</p></div>
+    <div class="card"><h3>📊 See the Budget</h3><p class="muted">Interactive charts of revenue, expenditure and sector allocations.</p></div>
+    <div class="card"><h3>📄 Read Reports</h3><p class="muted">Audit reports, ADPs, procurement disclosures — downloadable.</p></div>
+    <div class="card"><h3>🗣️ Citizen Say</h3><p class="muted">Submit complaints, suggestions or commendations directly to county officers.</p></div>
+  </div>
+
+  <div class="section-title" style="margin-top:40px"><h2>Featured Projects</h2><a href="projects.html" class="muted">View all →</a></div>
+  <div class="grid cards" id="featured"></div>
+</main>
+
+<footer class="footer">© <span id="yr"></span> Mfalme County Government · Open Data Portal · Built for the people.</footer>
+
+<script src="data.js"></script>
+<script>
+  document.getElementById("yr").textContent = new Date().getFullYear();
+  document.getElementById("hs-rev").textContent = shortKES(BUDGET.totalRevenue);
+  document.getElementById("hs-exp").textContent = shortKES(BUDGET.totalExpenditure);
+  document.getElementById("hs-proj").textContent = PROJECTS.filter(p=>p.status==="ongoing").length;
+  document.getElementById("hs-comp").textContent = PROJECTS.filter(p=>p.status==="completed").length;
+  const feat = document.getElementById("featured");
+  PROJECTS.slice(0,3).forEach(p=>{
+    feat.insertAdjacentHTML("beforeend",`
+      <div class="card project">
+        <div style="display:flex;justify-content:space-between;align-items:start;gap:8px">
+          <h3>${p.name}</h3><span class="badge ${p.status}">${p.status}</span>
+        </div>
+        <div class="meta"><span>${p.ward} · ${p.sector}</span><span>${p.progress}%</span></div>
+        <div class="bar"><span style="width:${p.progress}%"></span></div>
+        <div class="meta"><span>${shortKES(p.spent)} of ${shortKES(p.budget)}</span><span>${p.contractor}</span></div>
+      </div>`);
+  });
+</script>
+
+</body></html>

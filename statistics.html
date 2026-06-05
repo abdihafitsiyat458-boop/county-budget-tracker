@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Statistics — Mfalme County</title>
+<link rel="stylesheet" href="style.css"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+</head><body>
+<nav class="nav"><div class="wrap">
+  <a class="brand" href="home.html"><span class="logo">M</span> Mfalme County · Transparency</a>
+  <div class="menu">
+    <a href="home.html">Home</a>
+    <a href="projects.html">Projects</a>
+    <a href="reports.html">Reports</a>
+    <a href="statistics.html">Statistics</a>
+    <a href="citizen.html">Citizen Say</a>
+    <a href="login.html" class="btn" style="margin-left:8px">Login</a>
+  </div>
+</div></nav>
+
+
+<main class="container">
+  <span class="tag">Budget Insights</span>
+  <h1 style="margin:10px 0 6px">County Statistics</h1>
+  <p class="muted" id="fy"></p>
+
+  <div class="grid cards" style="margin-top:18px">
+    <div class="stat"><div class="num" id="kRev">—</div><div class="lbl">Total Revenue</div></div>
+    <div class="stat"><div class="num" id="kExp">—</div><div class="lbl">Total Expenditure</div></div>
+    <div class="stat"><div class="num" id="kAbs">—</div><div class="lbl">Absorption Rate</div></div>
+    <div class="stat"><div class="num" id="kProj">—</div><div class="lbl">Total Projects</div></div>
+  </div>
+
+  <div class="grid" style="grid-template-columns:1.2fr .8fr;margin-top:24px;gap:18px">
+    <div class="chart"><h3 style="margin-bottom:10px">Monthly Revenue vs Expenditure (KES Millions)</h3><canvas id="c1"></canvas></div>
+    <div class="chart"><h3 style="margin-bottom:10px">Sector Allocation</h3><canvas id="c2"></canvas></div>
+  </div>
+  <div class="chart" style="margin-top:18px"><h3 style="margin-bottom:10px">Project Status Overview</h3><canvas id="c3" height="90"></canvas></div>
+</main>
+<footer class="footer">© Mfalme County Government</footer>
+
+<script src="data.js"></script>
+<script>
+document.getElementById("fy").textContent = "Financial Year " + BUDGET.fy;
+document.getElementById("kRev").textContent = shortKES(BUDGET.totalRevenue);
+document.getElementById("kExp").textContent = shortKES(BUDGET.totalExpenditure);
+document.getElementById("kAbs").textContent = Math.round(BUDGET.totalExpenditure/BUDGET.totalRevenue*100)+"%";
+document.getElementById("kProj").textContent = PROJECTS.length;
+
+Chart.defaults.color = "#9aa6c2";
+Chart.defaults.borderColor = "#22304f";
+
+new Chart(document.getElementById("c1"),{
+  type:"line",
+  data:{labels:BUDGET.monthly.map(m=>m.m),datasets:[
+    {label:"Revenue",data:BUDGET.monthly.map(m=>m.rev),borderColor:"#2ec4b6",backgroundColor:"rgba(46,196,182,.2)",fill:true,tension:.35},
+    {label:"Expenditure",data:BUDGET.monthly.map(m=>m.exp),borderColor:"#ffb703",backgroundColor:"rgba(255,183,3,.15)",fill:true,tension:.35}
+  ]},
+  options:{plugins:{legend:{position:"bottom"}}}
+});
+
+new Chart(document.getElementById("c2"),{
+  type:"doughnut",
+  data:{labels:BUDGET.sectors.map(s=>s.name),datasets:[{data:BUDGET.sectors.map(s=>s.amount),backgroundColor:["#2ec4b6","#ffb703","#06d6a0","#ef476f","#118ab2","#8338ec","#fb5607","#3a86ff"]}]},
+  options:{plugins:{legend:{position:"bottom"}}}
+});
+
+const counts = {ongoing:0,completed:0,delayed:0};
+PROJECTS.forEach(p=>counts[p.status]++);
+new Chart(document.getElementById("c3"),{
+  type:"bar",
+  data:{labels:["Ongoing","Completed","Delayed"],datasets:[{label:"Projects",data:[counts.ongoing,counts.completed,counts.delayed],backgroundColor:["#ffb703","#06d6a0","#ef476f"]}]},
+  options:{plugins:{legend:{display:false}},scales:{y:{beginAtZero:true,ticks:{precision:0}}}}
+});
+</script>
+</body></html>

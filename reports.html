@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Reports — Mfalme County</title>
+<link rel="stylesheet" href="style.css"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
+</head><body>
+<nav class="nav"><div class="wrap">
+  <a class="brand" href="home.html"><span class="logo">M</span> Mfalme County · Transparency</a>
+  <div class="menu">
+    <a href="home.html">Home</a>
+    <a href="projects.html">Projects</a>
+    <a href="reports.html">Reports</a>
+    <a href="statistics.html">Statistics</a>
+    <a href="citizen.html">Citizen Say</a>
+    <a href="login.html" class="btn" style="margin-left:8px">Login</a>
+  </div>
+</div></nav>
+
+<main class="container">
+  <span class="tag">Public Documents</span>
+  <h1 style="margin:10px 0 6px">Official Reports</h1>
+  <p class="muted">Download budgets, audits, and procurement disclosures.</p>
+
+  <div class="table-wrap" style="margin-top:24px">
+    <table>
+      <thead><tr><th>Document</th><th>Date</th><th>Type</th><th>Size</th><th></th></tr></thead>
+      <tbody id="rows"></tbody>
+    </table>
+  </div>
+</main>
+
+<footer class="footer">© Mfalme County Government</footer>
+<script src="data.js"></script>
+<script>
+  const tb = document.getElementById("rows");
+  REPORTS.forEach(r=>{
+    tb.insertAdjacentHTML("beforeend",`
+      <tr>
+        <td><strong>${r.title}</strong></td>
+        <td>${r.date}</td>
+        <td><span class="badge ongoing">${r.type}</span></td>
+        <td>${r.size}</td>
+        <td><a href="#" class="btn" onclick="alert('Download starting...');return false;">Download</a></td>
+      </tr>`);
+  });
+</script>
+</body>
+</html>

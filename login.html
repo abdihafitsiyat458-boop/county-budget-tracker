@@ -1,0 +1,118 @@
+<!-- <!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Login — Mfalme County</title>
+<link rel="stylesheet" href="style.css"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
+</head><body>
+<nav class="nav"><div class="wrap">
+  <a class="brand" href="index.html"><span class="logo">M</span> Mfalme County · Transparency</a>
+  <div class="menu">
+    <a href="/home.html">Home</a>
+    <a href="projects.html">Projects</a>
+    <a href="reports.html">Reports</a>
+    <a href="statistics.html">Statistics</a>
+    <a href="citizen.html">Citizen </a>
+    <a href="login.html" class="btn" style="margin-left:8px">Login</a>
+  </div>
+</div></nav>
+
+<main class="container" style="max-width:560px">
+  <div style="text-align:center;margin-bottom:18px">
+    <span class="tag">Secure Portal</span>
+    <h1 style="margin:10px 0 4px">Welcome back</h1>
+    <p class="muted">Sign in to track your submissions and follow projects.</p>
+  </div>
+
+  <form class="form" id="loginForm">
+    <div id="signin">
+      <label>Email or ID Number</label><input required name="email" placeholder="you@example.com"/>
+      <label>Password</label><input required type="password" name="password" placeholder="••••••••"/>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-top:10px;font-size:13px">
+        <label style="display:flex;gap:6px;align-items:center;color:var(--muted);margin:0"><input type="checkbox"/> Remember me</label>
+        <a href="#" class="muted">Forgot password?</a>
+      </div>
+      <button class="btn" type="submit">Sign In</button>
+      <p class="muted" style="margin-top:14px;text-align:center;font-size:14px">No account? <a href="#" id="toSignup">Create one</a></p>
+    </div>
+    <div id="signup" style="display:none">
+      <label>Full Name</label><input name="name" required/>
+      <label>Email</label><input name="email" type="email" required/>
+      <label>National ID</label><input name="id" required/>
+      <label>Password</label><input name="password" type="password" required/>
+      <button class="btn" type="submit">Create Account</button>
+      <p class="muted" style="margin-top:14px;text-align:center;font-size:14px">Already a member? <a href="#" id="toSignin">Sign in</a></p>
+    </div>
+    <div class="note" id="note"></div>
+  </form>
+</main>
+<footer class="footer">© Mfalme County Government</footer>
+
+ <script  src="/script.js">
+
+</script>
+</body></html> -->
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Login — Mfalme County</title>
+<link rel="stylesheet" href="style.css"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
+</head><body>
+<nav class="nav"><div class="wrap">
+  <a class="brand" href="home.html"><span class="logo">M</span> Mfalme County · Transparency</a>
+  <div class="menu">
+    <a href="home.html">Home</a>
+    <a href="projects.html">Projects</a>
+    <a href="reports.html">Reports</a>
+    <a href="statistics.html">Statistics</a>
+    <a href="citizen.html">Citizen Say</a>
+    <a href="login.html" class="btn" style="margin-left:8px">Login</a>
+  </div>
+</div></nav>
+
+
+<main class="container" style="max-width:560px">
+  <div style="text-align:center;margin-bottom:18px">
+    <span class="tag">Secure Portal</span>
+    <h1 style="margin:10px 0 4px">Welcome back</h1>
+    <p class="muted">Sign in to track your submissions and follow projects.</p>
+  </div>
+
+  <form class="form" id="loginForm">
+    <div id="signin">
+      <label>Email or ID Number</label><input required name="email" placeholder="you@example.com"/>
+      <label>Password</label><input required type="password" name="password" placeholder="••••••••"/>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-top:10px;font-size:13px">
+        <label style="display:flex;gap:6px;align-items:center;color:var(--muted);margin:0"><input type="checkbox"/> Remember me</label>
+        <a href="#" class="muted">Forgot password?</a>
+      </div>
+      <button class="btn" type="submit">Sign In</button>
+      <p class="muted" style="margin-top:14px;text-align:center;font-size:14px">No account? <a href="#" id="toSignup">Create one</a></p>
+    </div>
+    <div id="signup" style="display:none">
+      <label>Full Name</label><input name="name" required/>
+      <label>Email</label><input name="email" type="email" required/>
+      <label>National ID</label><input name="id" required/>
+      <label>Password</label><input name="password" type="password" required/>
+      <button class="btn" type="submit">Create Account</button>
+      <p class="muted" style="margin-top:14px;text-align:center;font-size:14px">Already a member? <a href="#" id="toSignin">Sign in</a></p>
+    </div>
+    <div class="note" id="note"></div>
+  </form>
+</main>
+<footer class="footer">© Mfalme County Government</footer>
+
+<script>
+const $ = id => document.getElementById(id);
+$("toSignup").onclick = e=>{e.preventDefault();$("signin").style.display="none";$("signup").style.display="block"};
+$("toSignin").onclick = e=>{e.preventDefault();$("signup").style.display="none";$("signin").style.display="block"};
+$("loginForm").addEventListener("submit",e=>{
+  e.preventDefault();
+  const note = $("note");
+  note.textContent = "✅ Success! Redirecting to your dashboard...";
+  note.classList.add("show");
+  setTimeout(()=>location.href="index.html", 1200);
+});
+</script>
+</body></html>
